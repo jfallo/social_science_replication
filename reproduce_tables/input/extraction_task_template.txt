@@ -1,0 +1,16 @@
+Extract {table_name} from the attached 'paper.pdf' and output it in Markdown with pixel-perfect fidelity.
+
+- Preserve every number, symbol, and spacing exactly as in the PDF.
+- Preserve the original structure, order, and column alignment.
+- Be sure to maintain exact row and column alignment for all entries.
+    - Take extra caution with table rows that contain columns with missing entries.
+- Keep all panels, headers, and subheaders in the correct positions.
+- Use valid Markdown table syntax with | and ---.
+- Reproduce any multi-row or multi-column headers as separate Markdown rows.
+- Include standard errors as they appear, in parentheses or brackets.
+- Do not add, remove, or modify any content, formatting, or bolding.
+- Include the original table title as a Markdown header above the table.
+- Include the Notes section as a separate Markdown paragraph below the table.
+- Output only the Markdown table and notes, no extra text.
+
+The output must look exactly like the table in the PDF, line-for-line, ready for verification.

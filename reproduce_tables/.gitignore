@@ -1,0 +1,46 @@
+# MacOS junk
+.DS_Store
+input/.DS_Store
+input/110/.DS_Store
+input/110/data/.DS_Store
+intermediate/.DS_Store
+intermediate/110/.DS_Store
+intermediate/110/data/.DS_Store
+output/.DS_Store
+output/ground_truth/.DS_Store
+output/reproduction/.DS_Store
+
+# Python venv
+bin/
+lib/
+pyvenv.cfg
+share/
+
+# input data
+input/16/
+input/28/
+input/35/
+input/9/
+
+# intermediate data
+intermediate/16/
+intermediate/28/
+intermediate/35/
+intermediate/9/
+
+# output data
+output/ground_truth/16/
+output/ground_truth/28/
+output/ground_truth/35/
+output/ground_truth/9/
+output/reproduction/16/
+output/reproduction/28/
+output/reproduction/35/
+output/reproduction/9/
+
+# large files
+input/110/data/enf_info.dta
+input/110/data/pm_pix.dta
+input/110/data/weather_daily.dta
+input/110/data/firm_enf.dta
+input/110/data/daily_monitor_api.dta

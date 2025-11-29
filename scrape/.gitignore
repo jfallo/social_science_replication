@@ -1,0 +1,12 @@
+# MacOS junk
+.DS_Store
+input/.DS_Store
+output/.DS_Store
+
+# Python venv
+bin/
+lib/
+node_modules/
+package-lock.json
+package.json
+pyvenv.cfg
