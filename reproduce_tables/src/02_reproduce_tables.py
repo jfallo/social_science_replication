@@ -2,7 +2,7 @@ import os, re
 import anthropic
 import pandas as pd
 
-from helper_functions import extract_file_ids, clean_dataframe
+from helper_functions import extract_file_ids, combine_data_files
 
 
 INPUT_PATH = './input/'
@@ -50,41 +50,22 @@ for paper in papers:
         )
     file_id = file_upload_response.id
 
-    # upload data files
+    # combine data files
     data_in_path = os.path.join(in_path, 'data')
     data_out_path = os.path.join(inter_path, 'data')
     os.makedirs(data_out_path, exist_ok= True)
 
-    data_file_names = [name for name in os.listdir(data_in_path)]
+    data_file_paths = combine_data_files(data_in_path, data_out_path)
+
+    # upload files and store file ids
     data_file_ids = []
 
-    for data_file_name in data_file_names:
-        if data_file_name.lower().endswith('.dta') or data_file_name.lower().endswith('.csv'):
-            print(f'Writing {data_file_name}.')
-        else:
-            continue
-        
-        data_file_in_path = os.path.join(data_in_path, data_file_name)
-        data_file_out_path = os.path.join(data_out_path, data_file_name)
-
-        # only keep the first 100 rows of the file
-        if data_file_name.lower().endswith('.dta'):
-            df = pd.read_stata(data_file_in_path)
-            df = df.head(min(len(df),100))
-            df = clean_dataframe(df)
-            df.to_stata(data_file_out_path)
-        elif data_file_name.lower().endswith('.csv'):
-            df = pd.read_csv(data_file_in_path)
-            df = df.head(min(len(df),100))
-            df = clean_dataframe(df)
-            df.to_csv(data_file_out_path, index= False, encoding= 'utf-8')
-
-        # upload file and store file id
-        with open(data_file_out_path, 'rb') as data_file:
-            data_file_object = client.beta.files.upload(
-                file= data_file
+    for data_file in data_file_paths:
+        with open(data_file, 'rb') as file:
+            file_object = client.beta.files.upload(
+                file= file
             )
-        data_file_ids.append(data_file_object.id)
+        data_file_ids.append(file_object.id)
 
     # message request
     print(f'\nSending message request.')

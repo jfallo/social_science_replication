@@ -1,4 +1,4 @@
-import re, os
+import re, os, json
 import fitz
 from docling.document_converter import DocumentConverter, PdfFormatOption, InputFormat
 from docling.datamodel.pipeline_options import PdfPipelineOptions, TableStructureOptions, TableFormerMode
@@ -6,7 +6,7 @@ from docling.datamodel.pipeline_options import PdfPipelineOptions, TableStructur
 import pandas as pd
 from anyascii import anyascii
 
-# extraction
+# --- extraction --- #
 def get_tables_with_docling(pdf_path):
     pdf_options = PdfPipelineOptions(
         do_table_structure= True,
@@ -53,7 +53,7 @@ def extract_pages_with_tables(paper_input_path, paper_output_path, tmp_path):
 
 
 
-# reproduction
+# --- reproduction --- #
 def extract_file_ids(response):
     file_ids = []
 
@@ -69,24 +69,36 @@ def extract_file_ids(response):
     return file_ids
 
 
-# dataframe cleaning
-CHINESE_RE = re.compile(r'[\u4e00-\u9fff]')
+def combine_data_files(in_path, out_path):
+    dfs = []
 
-def has_chinese_characters(df: pd.DataFrame) -> bool:
-    string_cols = df.select_dtypes(include= ['object', 'string'])
+    file_names = [name for name in os.listdir(in_path)]
 
-    return string_cols.astype(str).apply(
-        lambda col : col.str.contains(CHINESE_RE, regex= True)
-    ).any().any()
+    for file in file_names:
+        if file.lower().endswith('.dta') or file.lower().endswith('.csv'):
+            print(f'Writing {file}.')
+        else:
+            continue
+        
+        file_path = os.path.join(in_path, file)
 
+        # read file
+        if file.lower().endswith('.dta'):
+            df = pd.read_stata(file_path)
+        elif file.lower().endswith('.csv'):
+            df = pd.read_csv(file_path)
 
-def chinese_to_english(df: pd.DataFrame) -> pd.DataFrame:
-    return df.map(lambda val : anyascii(val) if isinstance(val, str) else val)
+        # only keep the first 100 rows of the file
+        df = df.head(min(len(df),100))
+        dfs.append(df)
 
+    data_file_paths = []
 
-def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
-    # convert chinese characters if they exist
-    if has_chinese_characters(df):
-        df = chinese_to_english(df)
+    for i in range(0, len(dfs), 10):
+        out_file = os.path.join(out_path, f'combined_data_{i//10 + 1}.csv')
+        data_file_paths.append(out_file)
 
-    return df
+        batch = dfs[i:i+10]
+        pd.concat(batch).to_csv(out_file, index= False, encoding= 'utf-8-sig')
+
+    return data_file_paths
