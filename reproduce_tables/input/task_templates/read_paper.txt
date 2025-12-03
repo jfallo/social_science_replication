@@ -11,6 +11,3 @@ Read the social science research paper pdf to understand the methodology used to
 
 *Instructions:*
 1. Read and understand 'paper.pdf'. Understand the approach and methodology used by the paper authors to get their results, especially the tables you will be tasked to reproduce.
-
-*Important:*
-- Do not copy results from the paper.

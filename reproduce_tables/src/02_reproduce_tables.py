@@ -65,8 +65,6 @@ for paper in papers:
 
     # define data paths
     data_in_path = os.path.join(in_path, 'data')
-    data_out_path = os.path.join(inter_path, 'data')
-    os.makedirs(data_out_path, exist_ok= True)
 
     # convert data to string
     data_string = data_to_string(data_in_path)
@@ -108,13 +106,6 @@ for paper in papers:
             {
                 'role': 'user',
                 'content': [
-                   {
-                        'type': 'document',
-                        'source': {
-                            'type': 'file',
-                            'file_id': file_id
-                        }
-                    },
                     {
                         'type': 'text',
                         'text': analyze_data_task_prompt
