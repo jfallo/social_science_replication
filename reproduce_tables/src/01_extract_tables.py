@@ -27,7 +27,7 @@ def extract_tables(paper, reproduction_list, paper_path, out_path):
         time.sleep(30)
 
         # generate task by writing tables to reproduce to task template
-        with open(os.path.join(INPUT_PATH, 'extraction_task_template.txt'), 'r') as file:
+        with open(os.path.join(INPUT_PATH, 'task_templates/extraction.txt'), 'r') as file:
             task_template = file.read()
         
         # create task prompt

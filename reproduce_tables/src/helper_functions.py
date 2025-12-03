@@ -89,12 +89,15 @@ def combine_data_files(in_path, out_path):
             df = pd.read_csv(file_path)
 
         # only keep the first 100 rows of the file
-        df = df.head(min(len(df),100))
+        df = df.head(min(len(df), 100))
+        # add file name for reference
         df['__file__'] = file
         dfs.append(df)
 
+    # save combined data file paths for upload to claude
     data_file_paths = []
 
+    # combine data files
     for i in range(0, len(dfs), 10):
         out_file = os.path.join(out_path, f'combined_data_{i//10 + 1}.csv')
         data_file_paths.append(out_file)
@@ -103,3 +106,31 @@ def combine_data_files(in_path, out_path):
         pd.concat(batch).to_csv(out_file, index= False, encoding= 'utf-8-sig')
 
     return data_file_paths
+
+
+def data_to_string(in_path):
+    data_string = ""
+
+    file_names = [name for name in os.listdir(in_path)]
+
+    for file in file_names:
+        if file.lower().endswith('.dta') or file.lower().endswith('.csv'):
+            print(f'Writing {file}.')
+        else:
+            continue
+        
+        file_path = os.path.join(in_path, file)
+
+        # read file
+        if file.lower().endswith('.dta'):
+            df = pd.read_stata(file_path)
+        elif file.lower().endswith('.csv'):
+            df = pd.read_csv(file_path)
+
+        # only keep the first 20 rows of the file
+        df = df.head(min(len(df), 20))
+        
+        # update data string
+        data_string += f'{file}\n{df.to_string()}\n\n\n'
+
+    return data_string

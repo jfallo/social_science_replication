@@ -1,0 +1,16 @@
+**Reproducibility Task**
+
+*Objective:*
+Read the social science research paper pdf to understand the methodology used to produce the tables listed below. You will need to generate code for reproducing these tables in the future.
+
+*Tables to Reproduce:*
+{tables_to_reproduce}
+
+*Inputs:*
+- The social science research paper pdf as 'paper.pdf'.
+
+*Instructions:*
+1. Read and understand 'paper.pdf'. Understand the approach and methodology used by the paper authors to get their results, especially the tables you will be tasked to reproduce.
+
+*Important:*
+- Do not copy results from the paper.

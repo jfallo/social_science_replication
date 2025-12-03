@@ -1,0 +1,17 @@
+**Reproducibility Task**
+
+*Objective:*
+Analyze the data used in the social science research paper pdf to understand the methodology used to produce the tables listed below. You will need to generate code for reproducing these tables in the future so do not focus on the data values but rather the general structure of the data.
+
+*Tables to Reproduce:*
+{tables_to_reproduce}
+
+*Inputs:*
+- The social science research paper pdf as 'paper.pdf'.
+- Data from all .csv or .dta files in the paper replication package. All data files have been reduced to at most 20 rows. All data is given as a single string formatted such that a file name is followed by its contents and files are separated by empty lines.
+
+*Instructions:*
+1. Read and understand the structure of each data file. Know when each file is required in your reproduction code. Your reproduction code should be able to correctly retrieve relevant contents of any data file.
+
+*Important:*
+- Do not copy results from the paper.

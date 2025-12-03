@@ -1,22 +1,19 @@
 **Reproducibility Task**
 
 *Objective:*
-Read the social science research paper pdf and generate code to reproduce the tables listed below. *Do not* simply copy paper results.
+Generate code to reproduce the tables listed below. *Do not* simply copy paper results.
 
 *Tables to Reproduce:*
 {tables_to_reproduce}
 
 *Inputs:*
 - The social science research paper pdf as 'paper.pdf'.
-- All data files from the paper replication package in .csv or .dta format. All data files have been reduced to at most 100 rows.
 
 *Instructions:*
-1. Read and understand 'paper.pdf'. Understand the approach and methodology used by the paper authors to get their results, especially the tables you have been tasked to reproduce.
-2. Read and understand the structure of each data file. Know when each file is required in your reproduction code. Your reproduction code should be able to correctly retrieve relevant contents of any data file.
-3. Write a script that preprocesses data, if necessary, and produces any intermediate datasets required.
-4. Write all necessary scripts for reproducing table results.
-5. Write a script that formats and saves each reproduced table in Markdown format. The script should save each reproduced table as its own individual Markdown file containing *only* the Markdown table and a notes section as a separate Markdown paragraph below the table, if necessary. *Do not* include any extra text. Name the Markdown file after the table it contains. For example, the file containing {ex_table} should be named '{ex_table}.md'.
-6. Write a bash script that installs all necessary requirements, makes all necessary directories, and runs the generated scripts for reproducing each table.
+1. Write a script that preprocesses data, if necessary, and produces any intermediate datasets required.
+2. Write all necessary scripts for reproducing table results.
+3. Write a script that formats and saves each reproduced table in Markdown format. The script should save each reproduced table as its own individual Markdown file containing *only* the Markdown table and a notes section as a separate Markdown paragraph below the table, if necessary. *Do not* include any extra text. Name the Markdown file after the table it contains. For example, the file containing {ex_table} should be named '{ex_table}.md'.
+4. Write a bash script that installs all necessary requirements, makes all necessary directories, and runs the generated scripts for reproducing each table.
 
 *Important:*
 - Do not copy results from the paper.

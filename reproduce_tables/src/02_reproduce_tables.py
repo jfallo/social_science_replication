@@ -1,8 +1,9 @@
 import os, re
 import anthropic
-import pandas as pd
+from anthropic.types.message_create_params import MessageCreateParamsNonStreaming
+from anthropic.types.messages.batch_create_params import Request
 
-from helper_functions import extract_file_ids, combine_data_files
+from helper_functions import extract_file_ids, combine_data_files, data_to_string
 
 
 INPUT_PATH = './input/'
@@ -14,9 +15,13 @@ OUTPUT_PATH = './output/reproduction/'
 papers = [name for name in os.listdir(INPUT_PATH) if os.path.isdir(os.path.join(INPUT_PATH, name))]
 papers = ['110']
 
-# get task template for generating claude task prompt
-with open(os.path.join(INPUT_PATH, 'reproduction_task_template.txt'), 'r') as file:
-    task_template = file.read()
+# get task templates for generating claude task prompts
+with open(os.path.join(INPUT_PATH, 'task_templates/read_pdf.txt'), 'r') as file:
+    read_pdf_task_template = file.read()
+with open(os.path.join(INPUT_PATH, 'task_templates/analyze_data.txt'), 'r') as file:
+    analyze_data_task_template = file.read()
+with open(os.path.join(INPUT_PATH, 'task_templates/reproduction.txt'), 'r') as file:
+    reproduction_task_template = file.read()
 
 # for each paper...
 for paper in papers:
@@ -34,10 +39,18 @@ for paper in papers:
     # get tables to reproduce
     with open(os.path.join(in_path, 'should_reproduce.txt'), 'r') as file:
         reproduction_list = [line.strip() for line in file.readlines() if len(line.strip()) > 0]
+    
+    tables_to_reproduce = '- ' + '\n- '.join([table for table in reproduction_list])
 
-    # prepare task prompt
-    task_prompt = task_template.format(
-        tables_to_reproduce= '- ' + '\n- '.join([table for table in reproduction_list]),
+    # prepare task prompts
+    read_pdf_task_prompt = read_pdf_task_template.format(
+        tables_to_reproduce= tables_to_reproduce
+    )
+    analyze_data_task_prompt = analyze_data_task_template.format(
+        tables_to_reproduce= tables_to_reproduce
+    )
+    reproduction_task_prompt = reproduction_task_template.format(
+        tables_to_reproduce= tables_to_reproduce,
         ex_table= reproduction_list[0]
     )
 
@@ -50,22 +63,13 @@ for paper in papers:
         )
     file_id = file_upload_response.id
 
-    # combine data files
+    # define data paths
     data_in_path = os.path.join(in_path, 'data')
     data_out_path = os.path.join(inter_path, 'data')
     os.makedirs(data_out_path, exist_ok= True)
 
-    data_file_paths = combine_data_files(data_in_path, data_out_path)
-
-    # upload files and store file ids
-    data_file_ids = []
-
-    for data_file in data_file_paths:
-        with open(data_file, 'rb') as file:
-            file_object = client.beta.files.upload(
-                file= file
-            )
-        data_file_ids.append(file_object.id)
+    # convert data to string
+    data_string = data_to_string(data_in_path)
 
     # message request
     print(f'\nSending message request.')
@@ -84,24 +88,50 @@ for paper in papers:
             {
                 'role': 'user',
                 'content': [
-                    {
-                        'type': 'text',
-                        'text': task_prompt
-                    },
-                    {
+                   {
                         'type': 'document',
                         'source': {
                             'type': 'file',
                             'file_id': file_id
                         }
-                    }
-                ] + [
+                    },
                     {
-                        'type': 'container_upload',
-                        'file_id': data_file_id
+                        'type': 'text',
+                        'text': read_pdf_task_prompt
                     }
-                    for data_file_id in data_file_ids
                 ]
+            },
+            {
+                'role': 'assistant',
+                'content': "I have read the paper pdf."
+            },
+            {
+                'role': 'user',
+                'content': [
+                   {
+                        'type': 'document',
+                        'source': {
+                            'type': 'file',
+                            'file_id': file_id
+                        }
+                    },
+                    {
+                        'type': 'text',
+                        'text': analyze_data_task_prompt
+                    },
+                    {
+                        'type': 'text',
+                        'text': data_string
+                    }
+                ]
+            },
+            {
+                'role': 'assistant',
+                'content': "I have analyzed and understood the available data and its structure."
+            },
+            {
+                'role': 'user',
+                'content': reproduction_task_prompt
             }
         ],
         betas= [
@@ -122,18 +152,3 @@ for paper in papers:
     for path, content in output_files:
         with open(os.path.join(out_path, path), 'w', encoding= 'utf-8') as file:
             file.write(content.strip() + '\n')
-
-    """
-    for file_id in extract_file_ids(response):
-        file_metadata = client.beta.files.retrieve_metadata(file_id)
-        file_content = client.beta.files.download(file_id)
-        file_content.write_to_file(out_path + file_metadata.filename)
-    """
-
-""",
-tools= [
-    {
-        "type": "code_execution_20250825",
-        "name": "code_execution"
-    }
-]"""
