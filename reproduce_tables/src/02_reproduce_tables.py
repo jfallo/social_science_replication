@@ -3,7 +3,7 @@ import anthropic
 from anthropic.types.message_create_params import MessageCreateParamsNonStreaming
 from anthropic.types.messages.batch_create_params import Request
 
-from helper_functions import extract_file_ids, combine_data_files, data_to_string
+from helper_functions import data_to_string
 
 
 INPUT_PATH = './input/'
@@ -16,8 +16,8 @@ papers = [name for name in os.listdir(INPUT_PATH) if os.path.isdir(os.path.join(
 papers = ['110']
 
 # get task templates for generating claude task prompts
-with open(os.path.join(INPUT_PATH, 'task_templates/read_pdf.txt'), 'r') as file:
-    read_pdf_task_template = file.read()
+with open(os.path.join(INPUT_PATH, 'task_templates/read_paper.txt'), 'r') as file:
+    read_paper_task_template = file.read()
 with open(os.path.join(INPUT_PATH, 'task_templates/analyze_data.txt'), 'r') as file:
     analyze_data_task_template = file.read()
 with open(os.path.join(INPUT_PATH, 'task_templates/reproduction.txt'), 'r') as file:
@@ -43,7 +43,7 @@ for paper in papers:
     tables_to_reproduce = '- ' + '\n- '.join([table for table in reproduction_list])
 
     # prepare task prompts
-    read_pdf_task_prompt = read_pdf_task_template.format(
+    read_paper_task_prompt = read_paper_task_template.format(
         tables_to_reproduce= tables_to_reproduce
     )
     analyze_data_task_prompt = analyze_data_task_template.format(
@@ -97,7 +97,7 @@ for paper in papers:
                     },
                     {
                         'type': 'text',
-                        'text': read_pdf_task_prompt
+                        'text': read_paper_task_prompt
                     }
                 ]
             },
