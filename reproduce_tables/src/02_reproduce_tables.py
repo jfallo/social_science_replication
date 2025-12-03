@@ -12,7 +12,7 @@ OUTPUT_PATH = './output/reproduction/'
 
 # get papers to reproduce
 papers = [name for name in os.listdir(INPUT_PATH) if os.path.isdir(os.path.join(INPUT_PATH, name))]
-papers = ['35']
+papers = ['110']
 
 # get task template for generating claude task prompt
 with open(os.path.join(INPUT_PATH, 'reproduction_task_template.txt'), 'r') as file:
@@ -59,7 +59,10 @@ for paper in papers:
     data_file_ids = []
 
     for data_file_name in data_file_names:
-        print(f'Writing {data_file_name}.')
+        if data_file_name.lower().endswith('.dta') or data_file_name.lower().endswith('.csv'):
+            print(f'Writing {data_file_name}.')
+        else:
+            continue
         
         data_file_in_path = os.path.join(data_in_path, data_file_name)
         data_file_out_path = os.path.join(data_out_path, data_file_name)
@@ -75,8 +78,6 @@ for paper in papers:
             df = df.head(min(len(df),100))
             df = clean_dataframe(df)
             df.to_csv(data_file_out_path, index= False, encoding= 'utf-8')
-        else:
-            continue
 
         # upload file and store file id
         with open(data_file_out_path, 'rb') as data_file:

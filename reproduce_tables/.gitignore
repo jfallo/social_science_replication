@@ -10,6 +10,9 @@ output/.DS_Store
 output/ground_truth/.DS_Store
 output/reproduction/.DS_Store
 
+# Python junk
+src/__pycache__/
+
 # Python venv
 bin/
 lib/

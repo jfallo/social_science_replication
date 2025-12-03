@@ -2,8 +2,9 @@ import fitz
 from docling.document_converter import DocumentConverter, PdfFormatOption, InputFormat
 from docling.datamodel.pipeline_options import PdfPipelineOptions, TableStructureOptions, TableFormerMode
 
-import unicodedata
-
+import re
+import pandas as pd
+from anyascii import anyascii
 
 # extraction
 def get_tables_with_docling(pdf_path):
@@ -68,5 +69,24 @@ def extract_file_ids(response):
     return file_ids
 
 
-def clean_dataframe(df):
+# dataframe cleaning
+CHINESE_RE = re.compile(r'[\u4e00-\u9fff]')
+
+def has_chinese_characters(df: pd.DataFrame) -> bool:
+    string_cols = df.select_dtypes(include= ['object', 'string'])
+
+    return string_cols.astype(str).apply(
+        lambda col : col.str.contains(CHINESE_RE, regex= True)
+    ).any().any()
+
+
+def chinese_to_english(df: pd.DataFrame) -> pd.DataFrame:
+    return df.map(lambda val : anyascii(val) if isinstance(val, str) else val)
+
+
+def clean_dataframe(df: pd.DataFrame) -> pd.DataFrame:
+    # convert chinese characters if they exist
+    if has_chinese_characters(df):
+        df = chinese_to_english(df)
+
     return df
