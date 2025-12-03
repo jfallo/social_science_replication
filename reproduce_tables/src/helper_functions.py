@@ -2,6 +2,8 @@ import fitz
 from docling.document_converter import DocumentConverter, PdfFormatOption, InputFormat
 from docling.datamodel.pipeline_options import PdfPipelineOptions, TableStructureOptions, TableFormerMode
 
+import unicodedata
+
 
 # extraction
 def get_tables_with_docling(pdf_path):
@@ -22,6 +24,7 @@ def get_tables_with_docling(pdf_path):
     result = converter.convert(source= pdf_path)
 
     return result.document.tables
+
 
 def extract_pages_with_tables(paper_input_path, paper_output_path):
     doc = fitz.open(paper_input_path)
@@ -48,4 +51,22 @@ def extract_pages_with_tables(paper_input_path, paper_output_path):
     doc.close()
 
 
+
 # reproduction
+def extract_file_ids(response):
+    file_ids = []
+
+    for item in response.content:
+        if item.type == 'bash_code_execution_tool_result':
+            content_item = item.content
+
+            if content_item.type == 'bash_code_execution_result':
+                for file in content_item.content:
+                    if hasattr(file, 'file_id'):
+                        file_ids.append(file.file_id)
+
+    return file_ids
+
+
+def clean_dataframe(df):
+    return df

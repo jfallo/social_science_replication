@@ -1,32 +1,14 @@
 import os, re
 import anthropic
 import pandas as pd
-import unicodedata
+
+from helper_functions import extract_file_ids, clean_dataframe
+
 
 INPUT_PATH = './input/'
 INTERMEDIATE_PATH = './intermediate/'
 OUTPUT_PATH = './output/reproduction/'
 
-# helper functions
-def extract_file_ids(response):
-    file_ids = []
-
-    for item in response.content:
-        if item.type == 'bash_code_execution_tool_result':
-            content_item = item.content
-
-            if content_item.type == 'bash_code_execution_result':
-                for file in content_item.content:
-                    if hasattr(file, 'file_id'):
-                        file_ids.append(file.file_id)
-
-    return file_ids
-
-def replace_non_latin1_chars(s):
-    if not isinstance(s, str):
-        return s
-    
-    return s.encode('latin-1', 'replace').decode('latin-1')
 
 # get papers to reproduce
 papers = [name for name in os.listdir(INPUT_PATH) if os.path.isdir(os.path.join(INPUT_PATH, name))]
@@ -85,11 +67,13 @@ for paper in papers:
         # only keep the first 100 rows of the file
         if data_file_name.lower().endswith('.dta'):
             df = pd.read_stata(data_file_in_path)
-            df = df.head(min(len(df),100)).map(replace_non_latin1_chars)
+            df = df.head(min(len(df),100))
+            df = clean_dataframe(df)
             df.to_stata(data_file_out_path)
         elif data_file_name.lower().endswith('.csv'):
             df = pd.read_csv(data_file_in_path)
-            df = df.head(min(len(df),100)).map(replace_non_latin1_chars)
+            df = df.head(min(len(df),100))
+            df = clean_dataframe(df)
             df.to_csv(data_file_out_path, index= False, encoding= 'utf-8')
         else:
             continue
