@@ -1,8 +1,8 @@
+import re, os
 import fitz
 from docling.document_converter import DocumentConverter, PdfFormatOption, InputFormat
 from docling.datamodel.pipeline_options import PdfPipelineOptions, TableStructureOptions, TableFormerMode
 
-import re
 import pandas as pd
 from anyascii import anyascii
 
@@ -27,12 +27,12 @@ def get_tables_with_docling(pdf_path):
     return result.document.tables
 
 
-def extract_pages_with_tables(paper_input_path, paper_output_path):
+def extract_pages_with_tables(paper_input_path, paper_output_path, tmp_path):
     doc = fitz.open(paper_input_path)
     pages_with_tables = []
 
     for page in range(len(doc)):
-        single_page_pdf_path = os.path.join(INTERMEDIATE_PATH, 'tmp_page.pdf')
+        single_page_pdf_path = os.path.join(tmp_path, 'tmp_page.pdf')
         single_page = fitz.open()
         single_page.insert_pdf(doc, from_page= page, to_page= page)
         single_page.save(single_page_pdf_path)

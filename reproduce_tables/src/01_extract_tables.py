@@ -87,7 +87,7 @@ for paper in papers:
     paper_path = os.path.join(in_path, 'paper.pdf')
     reduced_paper_path = os.path.join(inter_path, f'paper.pdf')
     if not os.path.exists(reduced_paper_path):
-        extract_pages_with_tables(paper_path, reduced_paper_path)
+        extract_pages_with_tables(paper_path, reduced_paper_path, tmp_path= INTERMEDIATE_PATH)
 
     # extract tables
     extract_tables(paper, reproduction_list, reduced_paper_path, out_path)
