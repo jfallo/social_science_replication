@@ -90,6 +90,7 @@ def combine_data_files(in_path, out_path):
 
         # only keep the first 100 rows of the file
         df = df.head(min(len(df),100))
+        df['__file__'] = file
         dfs.append(df)
 
     data_file_paths = []
