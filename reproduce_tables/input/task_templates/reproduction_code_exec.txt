@@ -28,3 +28,9 @@ Reproduce the tables listed below using the methodology in the paper pdf and the
 - Do not copy results from the paper.
 - All code must be runnable from start to finish.
 - Create and maintain a text file named 'output.txt' that documents your thinking during reproduction. Note any assumptions made during reproduction.
+
+*Output Requirements:*
+- Save 'output.txt' in the following format in your response:
+<file="output.txt"> 
+    file contents 
+</file>
