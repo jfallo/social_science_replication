@@ -1,16 +1,28 @@
 **Reproducibility Task**
 
 *Objective:*
-Generate code to reproduce the tables listed below. *Do not* simply copy paper results.
+Reproduce the tables listed below using the methodology in the paper pdf and the provided raw data. *Do not* simply copy paper results.
 
 *Tables to Reproduce:*
 {tables_to_reproduce}
 
 *Instructions:*
-1. Write a script that preprocesses data, if necessary, and produces any intermediate datasets required.
-2. Write all necessary scripts for reproducing table results.
-3. Write a script that formats and saves each reproduced table in Markdown format. The script should save each reproduced table as its own individual Markdown file containing *only* the Markdown table and a notes section as a separate Markdown paragraph below the table, if necessary. *Do not* include any extra text. Name the Markdown file after the table it contains. For example, the file containing {ex_table} should be named '{ex_table}.md'.
-4. Write a bash script that installs all necessary requirements, makes all necessary directories, and runs the generated scripts for reproducing each table.
+1. Write a Python script for preprocessing, if necessary, that:
+    1. Loads any datasets required for reproduction from the provided data files.
+    2. Performs all necessary preprocessing steps (cleaning, formatting, handling missing values, type conversions, etc.).
+    3. Generates all required intermediate datasets.
+    4. Saves each intermediate dataset as a .csv file.
+2. Write all necessary Python scripts for reproducing table results that:
+    1. Load the required input data.
+    2. Perform all necessary analyses and calculations.
+    3. Generate the tables to reproduce, formatted exactly as they appear in the paper.
+    4. Save each reproduced table in Markdown format as its own individual Markdown file containing *only* the Markdown table and a notes section as a separate Markdown paragraph below the table, if necessary. *Do not* include any extra text. Name the Markdown file after the table it contains. For example, the file containing {ex_table} should be named '{ex_table}.md'.
+    5. Include comments documenting your methodology.
+3. Write a bash script that:
+    1. Creates a python virtual environment in the current directory.
+    2. Creates all necessary directories.
+    3. Installs all necessary requirements. 
+    4. Runs the generated scripts for preprocessing and reproduction.
 
 *Important:*
 - Do not copy results from the paper.
