@@ -31,6 +31,9 @@ Generate code for reproducing the tables listed below using the methodology in t
 - Consider the computational cost of your codes. Do your best to minimize costs and runtimes, but not at the expense of completing your objective.
 - Create and maintain a text file named 'output.txt' that documents your thinking during reproduction. Note any assumptions made during reproduction.
 
+*Capabilities:*
+You are capable of searching the web. Take advantage of this to best complete the objective, when necessary.
+
 *Output Requirements:*
 - Each script should be saved in the following format: 
 <file="file_path"> 

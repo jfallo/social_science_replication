@@ -54,39 +54,6 @@ def extract_pages_with_tables(paper_input_path, paper_output_path, tmp_path):
 
 
 # --- reproduction --- #
-def extract_file_ids(response):
-    file_ids = []
-
-    for item in response.content:
-        if item.type == 'bash_code_execution_tool_result':
-            content_item = item.content
-
-            if content_item.type == 'bash_code_execution_result':
-                for file in content_item.content:
-                    if hasattr(file, 'file_id'):
-                        file_ids.append(file.file_id)
-
-    return file_ids
-
-
-def extract_files(response):
-    files = []
-
-    for item in response:
-        if item.get('type') == 'server_tool_use' and item.get('name') == 'text_editor_code_execution':
-            file = item.get('input', {})
-            
-            if file.get('command') == 'create':
-                files.append(
-                    {
-                        'path': file.get('path'),
-                        'content': file.get('file_text')
-                    }
-                )
-
-    return files
-
-
 def combine_data_files(in_path, out_path):
     dfs = []
 

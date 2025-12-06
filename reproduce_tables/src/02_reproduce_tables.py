@@ -1,9 +1,7 @@
-import os, re, json
+import os, re
 import anthropic
-from anthropic.types.message_create_params import MessageCreateParamsNonStreaming
-from anthropic.types.messages.batch_create_params import Request
 
-from helper_functions import data_to_string, extract_file_ids
+from helper_functions import data_to_string
 
 
 INPUT_PATH = './input/'
@@ -20,7 +18,7 @@ with open(os.path.join(INPUT_PATH, 'task_templates/read_paper.txt'), 'r') as fil
     read_paper_task_template = file.read()
 with open(os.path.join(INPUT_PATH, 'task_templates/analyze_data.txt'), 'r') as file:
     analyze_data_task_template = file.read()
-with open(os.path.join(INPUT_PATH, 'task_templates/reproduction_code_exec.txt'), 'r') as file:
+with open(os.path.join(INPUT_PATH, 'task_templates/reproduction.txt'), 'r') as file:
     reproduction_task_template = file.read()
 
 # for each paper...
@@ -124,15 +122,10 @@ for paper in papers:
             }
         ],
         betas= [
-            'code-execution-2025-08-25', 
             'web-search-2025-03-05',
             'files-api-2025-04-14'
         ],
         tools= [
-            {
-                'type': 'code_execution_20250825',
-                'name': 'code_execution'
-            },
             {
                 'type': 'web_search_20250305',
                 'name': 'web_search'
@@ -140,14 +133,15 @@ for paper in papers:
         ]
     )
 
-    # save raw response
-    with open(os.path.join(out_path, 'response_raw.json'), 'w', encoding= 'utf-8') as f:
-        json.dump(response, f, indent= 2, default= str)
+    response_text = response.content[0].text
 
-    # save response files
-    for file_id in extract_file_ids(response):
-        print(file_id)
-        file_metadata = client.beta.files.retrieve_metadata(file_id)
-        file_content = client.beta.files.download(file_id)
-        with open(os.path.join(out_path, file_metadata.filename), 'w') as file:
-            file.write(file_content)
+    with open(os.path.join(out_path, 'response.txt'), 'w') as file:
+        file.write(response_text)
+
+    # detect files in response text
+    pattern = r'<file="(.*?)">(.*?)</file>'
+    output_files = re.findall(pattern, response_text, flags= re.DOTALL)
+
+    for path, content in output_files:
+        with open(os.path.join(out_path, path), 'w', encoding= 'utf-8') as file:
+            file.write(content.strip() + '\n')
