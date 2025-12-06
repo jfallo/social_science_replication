@@ -33,8 +33,6 @@ for paper in papers:
     # create intermediate and output directories if they do not exist
     os.makedirs(inter_path, exist_ok= True)
     os.makedirs(out_path, exist_ok= True)
-    os.makedirs(os.path.join(out_path, 'figs'), exist_ok= True)
-    os.makedirs(os.path.join(out_path, 'repo'), exist_ok= True)
 
     # get tables to reproduce
     with open(os.path.join(in_path, 'should_reproduce.txt'), 'r') as file:
@@ -145,12 +143,6 @@ for paper in papers:
     # save raw response
     with open(os.path.join(out_path, 'response_raw.json'), 'w', encoding= 'utf-8') as f:
         json.dump(response, f, indent= 2, default= str)
-
-    # save response text
-    response_text = response.content[0].text
-
-    with open(os.path.join(out_path, 'response.txt'), 'w') as file:
-        file.write(response_text)
 
     # save response files
     for file_id in extract_file_ids(response):
