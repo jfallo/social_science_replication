@@ -29,6 +29,7 @@ Generate code for reproducing the tables listed below using the methodology in t
 - All code must be runnable from start to finish.
 - Note that you do not have access to the full raw dataset. You only have a sample to understand its structure. I provided this so you know how to work with and access features of the full raw dataset. Do not waste time trying to use or understand these values.
 - Consider the computational cost of your codes. Do your best to minimize costs and runtimes, but not at the expense of completing your objective.
+- Check your scripts for any coding or logic errors.
 - Create and maintain a text file named 'output.txt' that documents your thinking during reproduction. Note any assumptions made during reproduction.
 
 *Capabilities:*

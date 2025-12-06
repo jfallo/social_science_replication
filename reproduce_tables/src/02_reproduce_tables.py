@@ -1,4 +1,4 @@
-import os, re
+import os, re, json
 import anthropic
 
 from helper_functions import data_to_string
@@ -132,6 +132,10 @@ for paper in papers:
             }
         ]
     )
+
+    # save raw response
+    with open(os.path.join(out_path, 'response_raw.json'), 'w', encoding= 'utf-8') as f:
+        json.dump(response, f, indent= 2, default= str)
 
     response_text = response.content[0].text
 
