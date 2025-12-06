@@ -20,7 +20,7 @@ with open(os.path.join(INPUT_PATH, 'task_templates/read_paper.txt'), 'r') as fil
     read_paper_task_template = file.read()
 with open(os.path.join(INPUT_PATH, 'task_templates/analyze_data.txt'), 'r') as file:
     analyze_data_task_template = file.read()
-with open(os.path.join(INPUT_PATH, 'task_templates/reproduction.txt'), 'r') as file:
+with open(os.path.join(INPUT_PATH, 'task_templates/reproduction_code_exec.txt'), 'r') as file:
     reproduction_task_template = file.read()
 
 # for each paper...
