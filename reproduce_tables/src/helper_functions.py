@@ -1,10 +1,10 @@
-import re, os, json
+import os
 import fitz
 from docling.document_converter import DocumentConverter, PdfFormatOption, InputFormat
 from docling.datamodel.pipeline_options import PdfPipelineOptions, TableStructureOptions, TableFormerMode
 
 import pandas as pd
-from anyascii import anyascii
+
 
 # --- extraction --- #
 def get_tables_with_docling(pdf_path):
@@ -50,7 +50,6 @@ def extract_pages_with_tables(paper_input_path, paper_output_path, tmp_path):
     tables_pdf.save(paper_output_path)
     tables_pdf.close()
     doc.close()
-
 
 
 # --- reproduction --- #
