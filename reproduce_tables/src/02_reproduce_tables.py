@@ -1,4 +1,4 @@
-import os, re
+import os, re, json
 import anthropic
 from anthropic.types.message_create_params import MessageCreateParamsNonStreaming
 from anthropic.types.messages.batch_create_params import Request
@@ -142,13 +142,19 @@ for paper in papers:
         ]
     )
 
+    # save raw response
+    with open(os.path.join(out_path, 'response_raw.json'), 'w', encoding= 'utf-8') as f:
+        json.dump(response, f, indent= 2, default= str)
+
+    # save response text
     response_text = response.content[0].text
 
     with open(os.path.join(out_path, 'response.txt'), 'w') as file:
         file.write(response_text)
 
-    # get files from response
+    # save response files
     for file_id in extract_file_ids(response):
         file_metadata = client.beta.files.retrieve_metadata(file_id)
         file_content = client.beta.files.download(file_id)
-        file_content.write_to_file(os.path.join(out_path, file_metadata.filename))
+        with open(os.path.join(out_path, file_metadata.filename), 'w') as file:
+            file.write(file_content)
