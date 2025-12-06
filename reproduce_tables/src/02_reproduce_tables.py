@@ -146,6 +146,7 @@ for paper in papers:
 
     # save response files
     for file_id in extract_file_ids(response):
+        print(file_id)
         file_metadata = client.beta.files.retrieve_metadata(file_id)
         file_content = client.beta.files.download(file_id)
         with open(os.path.join(out_path, file_metadata.filename), 'w') as file:

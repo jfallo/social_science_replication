@@ -69,6 +69,24 @@ def extract_file_ids(response):
     return file_ids
 
 
+def extract_files(response):
+    files = []
+
+    for item in response:
+        if item.get('type') == 'server_tool_use' and item.get('name') == 'text_editor_code_execution':
+            file = item.get('input', {})
+            
+            if file.get('command') == 'create':
+                files.append(
+                    {
+                        'path': file.get('path'),
+                        'content': file.get('file_text')
+                    }
+                )
+
+    return files
+
+
 def combine_data_files(in_path, out_path):
     dfs = []
 
