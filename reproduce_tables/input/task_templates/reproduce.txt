@@ -24,10 +24,10 @@ Generate code that can be used to reproduce {table} using the methodology in the
 *Important:*
 - Do not copy results from the paper.
 - All code must be runnable from start to finish.
+- Codes should be well-documented with comments describing your approach.
 - Note that you do not have access to the full raw dataset. You only have a sample to understand its structure. This has been provided so that you know how to work with and access features of the full raw dataset. Do not waste time trying to use or understand these values.
 - Consider the computational cost of your codes. Do your best to minimize costs and runtimes, but not at the expense of completing your objective.
 - Check your scripts for any coding or logic errors.
-- Create and maintain a text file named 'output.txt' that documents your thinking during reproduction. Note any assumptions made during reproduction.
 
 *Capabilities:*
 You are capable of searching the web. Take advantage of this to best complete the objective, when necessary.
@@ -35,9 +35,5 @@ You are capable of searching the web. Take advantage of this to best complete th
 *Output Requirements:*
 - Each script should be saved in the following format: 
 <file="file_path"> 
-    file contents 
-</file>
-- Save 'output.txt' in the following format:
-<file="output.txt"> 
     file contents 
 </file>

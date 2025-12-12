@@ -17,7 +17,7 @@ Generate a script that executes all reproduction code for the specified tables.
 - All code must be runnable from start to finish.
 - Consider the computational cost of your codes. Do your best to minimize costs and runtimes, but not at the expense of completing your objective.
 - Check your script for any coding or logic errors.
-- Maintain 'output.txt' with your thinking and notes of any assumptions during reproduction.
+- Create a file 'output.txt' that describes your approach and notes any assumptions.
 
 *Capabilities:*
 You are capable of searching the web. Take advantage of this to best complete the objective, when necessary.

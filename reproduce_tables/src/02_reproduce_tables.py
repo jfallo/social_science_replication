@@ -134,6 +134,14 @@ for paper in papers:
             {
                 'role': 'user',
                 'content': run_task_prompt
+            },
+            {
+                'role': 'assistant',
+                'content': "I have completed creating the reproduction package. I am ready to generate my response."
+            },
+            {
+                'role': 'user',
+                'content': "Please send your response such that your response text only contains the files formatted as I described before, separated by a single empty line."
             }
         ],
         betas= [
