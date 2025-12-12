@@ -1,0 +1,120 @@
+REPRODUCTION LOG FOR TABLE 1
+================================
+
+TABLE 1: Firm Level: Pollution Monitoring and Enforcement Activities
+
+METHODOLOGY FROM PAPER:
+- Uses equation (2): y_ijpt = δ_i + θ_jt + η_pt + β m_it^10km + ε_ijpt
+- Sample: firm_enf.dta - firms within 50km of monitor, operating before 2010
+- Time period: 2010 Q1 to 2017 Q4 (quarterly data)
+- Treatment: Mon<10km × Post (firms within 10km of monitor after 2015)
+- Controls: Firm FE, Industry-by-time FE, Province-by-time FE
+- Standard errors: Clustered at city level
+- Also reports Conley SE (spatial HAC) in panel A
+
+PANEL A OUTCOMES:
+1. Any Air - any air pollution enforcement (any_air)
+2. Suspension - suspension of production (any_air_shutdown)
+3. Upgrading - equipment replacement/upgrading (any_air_renovate)
+4. Fine - levying fines (any_air_fine)
+5. Warning - issuing warning (any_air_warning)
+
+PANEL B:
+- Same specification but includes interaction with H. Polluter indicator
+- Outcomes: # Air, Low intensity, High intensity, Lenient, Strict
+- H. Polluter: from ESR database (key=1 in firm_enf.dta based on paper description)
+
+KEY VARIABLES IN DATA:
+- min_dist_10: indicator for within 10km of monitor
+- post1: indicator for post-2015 (year >= 2015)
+- Treatment: min_dist_10 × post1
+- industry: 4-digit industry code
+- prov_id: province ID
+- city_id: for clustering
+- key: high polluter indicator (ESR firms)
+
+CONSTRUCTION OF OUTCOMES FOR PANEL B:
+- # Air: total number of air enforcement actions (air)
+- Low intensity: only one enforcement action in quarter (air_1)
+- High intensity: at least two enforcement actions in quarter (air_2)
+- Lenient: only one punishment type (leni)
+- Strict: all three punishment types (stri)
+
+MEAN OUTCOMES:
+Report mean of dependent variable for reference
+
+IMPLEMENTATION NOTES:
+=====================
+
+1. FIXED EFFECTS SPECIFICATION:
+   - The paper uses three-way fixed effects: firm FE, industry-time FE, province-time FE
+   - This is implemented using PanelOLS with entity_effects=True for firm FE
+   - Industry-time and province-time FE are included as dummy variables
+   - This absorbs all time-invariant firm characteristics and common shocks within industry-time and province-time groups
+
+2. CLUSTERING:
+   - Standard errors are clustered at the city level
+   - This accounts for correlation within cities over time
+   - PanelOLS supports clustered standard errors via cov_type='clustered'
+
+3. CONLEY STANDARD ERRORS:
+   - Panel A reports spatial HAC standard errors (Conley 1999)
+   - These account for spatial correlation across observations
+   - The paper uses a Bartlett kernel with 100km bandwidth
+   - Due to computational complexity and lack of spatial coordinates for all observations, these are noted but not computed in this reproduction
+   - The main clustered standard errors are still valid for inference
+
+4. PANEL B SPECIFICATION:
+   - Includes interaction term: Mon<10km × Post × H. Polluter
+   - This tests whether monitoring has differential effects on high-polluting firms
+   - High polluter is identified by key variable (ESR database firms)
+
+5. DATA STRUCTURE:
+   - Panel data with firm-quarter observations
+   - Treatment varies at firm-quarter level (within 10km × post-2015)
+   - Multiple fixed effects absorb various sources of variation
+
+6. INTERPRETATION:
+   - Coefficients represent percentage point changes in probability of enforcement
+   - Mean outcomes provide baseline for effect sizes
+   - Panel B interaction coefficients show additional effect for high polluters
+
+ASSUMPTIONS:
+============
+1. The min_dist_10 variable correctly identifies firms within 10km of monitor
+2. The post1 variable correctly identifies post-2015 period
+3. The key variable correctly identifies high-polluting ESR firms
+4. Industry codes (industry) represent 4-digit classification
+5. City clustering is appropriate level for standard error correction
+6. Parallel trends assumption holds (tested in Figure 2 of paper)
+
+COMPUTATIONAL APPROACH:
+======================
+1. Load firm_enf.dta containing all firm-quarter observations
+2. Create treatment variable: min_dist_10 × post1
+3. Create fixed effect group identifiers (industry_time, prov_time)
+4. Run separate regressions for each outcome variable
+5. Extract coefficients, standard errors, and summary statistics
+6. Format results into markdown table matching paper format
+
+LIMITATIONS OF REPRODUCTION:
+============================
+1. Conley spatial HAC standard errors not computed (computationally intensive)
+2. Using full sample data rather than restricted sample shown in data preview
+3. Cannot verify exact sample restrictions without full documentation
+4. Firm fixed effects absorb all time-invariant characteristics automatically
+
+VALIDATION CHECKS:
+==================
+1. Verify mean outcomes align with paper's reported values
+2. Check observation counts match expected sample size
+3. Confirm treatment variable has reasonable variation
+4. Ensure fixed effects are properly absorbed
+5. Verify standard errors are in reasonable range
+
+OUTPUT FORMAT:
+==============
+- Markdown table with two panels (A and B)
+- Coefficients with standard errors in parentheses
+- Mean outcomes and observation counts
+- Notes section explaining specification and variable definitions

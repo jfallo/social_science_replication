@@ -1,0 +1,33 @@
+**Reproducibility Task**
+
+*Objective:*
+Generate a script that executes all reproduction code for the specified tables.
+
+*Tables to Reproduce:*
+{tables_to_reproduce}
+
+*Instructions:*
+1. Write a bash script that:
+    1. Creates a python virtual environment in the current directory.
+    2. Creates all necessary directories.
+    3. Installs all necessary requirements.
+    4. Runs the generated scripts for preprocessing and reproduction.
+
+*Important:*
+- All code must be runnable from start to finish.
+- Consider the computational cost of your codes. Do your best to minimize costs and runtimes, but not at the expense of completing your objective.
+- Check your script for any coding or logic errors.
+- Maintain 'output.txt' with your thinking and notes of any assumptions during reproduction.
+
+*Capabilities:*
+You are capable of searching the web. Take advantage of this to best complete the objective, when necessary.
+
+*Output Requirements:*
+- Each script should be saved in the following format: 
+<file="file_path"> 
+    file contents 
+</file>
+- Save 'output.txt' in the following format:
+<file="output.txt"> 
+    file contents 
+</file>

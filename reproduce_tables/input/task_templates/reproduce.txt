@@ -1,10 +1,7 @@
 **Reproducibility Task**
 
 *Objective:*
-Generate code for reproducing the tables listed below using the methodology in the paper. Use the provided raw data sample to understand the structure of the full raw dataset. *Do not* simply copy paper results.
-
-*Tables to Reproduce:*
-{tables_to_reproduce}
+Generate code that can be used to reproduce {table} using the methodology in the paper. Use the provided raw data sample to understand the structure of the full raw dataset. *Do not* simply copy paper results.
 
 *Instructions:*
 1. Write a Python script for preprocessing, if necessary, that:
@@ -12,22 +9,22 @@ Generate code for reproducing the tables listed below using the methodology in t
     2. Performs all necessary preprocessing steps (cleaning, formatting, handling missing values, type conversions, etc.).
     3. Generates all required intermediate datasets.
     4. Saves each intermediate dataset as a .csv file.
-2. Write all necessary Python scripts for reproducing table results that:
-    1. Load the required input data.
+2. Write all necessary Python scripts for reproducing {table} that:
+    1. Load the data.
     2. Perform all necessary analyses and calculations.
-    3. Generate the tables to reproduce, formatted exactly as they appear in the paper.
-    4. Save each reproduced table in Markdown format as its own individual Markdown file containing *only* the Markdown table and a notes section as a separate Markdown paragraph below the table, if necessary. *Do not* include any extra text. Name the Markdown file after the table it contains. For example, the file containing {ex_table} should be named '{ex_table}.md'.
+    3. Generate {table}, formatted exactly as it appears in the paper.
+    4. Save {table} in Markdown format as its own individual Markdown file containing *only* the Markdown table and a notes section as a separate Markdown paragraph below the table, if necessary. *Do not* include any extra text. Name the Markdown file '{table}.md'.
     5. Include comments documenting your methodology.
 3. Write a bash script that:
     1. Creates a python virtual environment in the current directory.
     2. Creates all necessary directories.
-    3. Installs all necessary requirements. 
+    3. Installs all necessary requirements.
     4. Runs the generated scripts for preprocessing and reproduction.
 
 *Important:*
 - Do not copy results from the paper.
 - All code must be runnable from start to finish.
-- Note that you do not have access to the full raw dataset. You only have a sample to understand its structure. I provided this so you know how to work with and access features of the full raw dataset. Do not waste time trying to use or understand these values.
+- Note that you do not have access to the full raw dataset. You only have a sample to understand its structure. This has been provided so that you know how to work with and access features of the full raw dataset. Do not waste time trying to use or understand these values.
 - Consider the computational cost of your codes. Do your best to minimize costs and runtimes, but not at the expense of completing your objective.
 - Check your scripts for any coding or logic errors.
 - Create and maintain a text file named 'output.txt' that documents your thinking during reproduction. Note any assumptions made during reproduction.

@@ -11,15 +11,17 @@ OUTPUT_PATH = './output/reproduction/'
 
 # get papers to reproduce
 papers = [name for name in os.listdir(INPUT_PATH) if os.path.isdir(os.path.join(INPUT_PATH, name))]
-papers = ['110']
+papers = ['9']
 
 # get task templates for generating claude task prompts
 with open(os.path.join(INPUT_PATH, 'task_templates/read_paper.txt'), 'r') as file:
     read_paper_task_template = file.read()
 with open(os.path.join(INPUT_PATH, 'task_templates/analyze_data.txt'), 'r') as file:
     analyze_data_task_template = file.read()
-with open(os.path.join(INPUT_PATH, 'task_templates/reproduction.txt'), 'r') as file:
+with open(os.path.join(INPUT_PATH, 'task_templates/reproduce.txt'), 'r') as file:
     reproduction_task_template = file.read()
+with open(os.path.join(INPUT_PATH, 'task_templates/run_reproduction.txt'), 'r') as file:
+    run_task_template = file.read()
 
 # for each paper...
 for paper in papers:
@@ -45,9 +47,11 @@ for paper in papers:
     analyze_data_task_prompt = analyze_data_task_template.format(
         tables_to_reproduce= tables_to_reproduce
     )
-    reproduction_task_prompt = reproduction_task_template.format(
-        tables_to_reproduce= tables_to_reproduce,
-        ex_table= reproduction_list[0]
+    reproduction_task_prompts = [reproduction_task_template.format(
+        table= table
+    ) for table in tables_to_reproduce]
+    run_task_prompt = run_task_template.format(
+        tables_to_reproduce= tables_to_reproduce
     )
 
     client = anthropic.Anthropic()
@@ -72,7 +76,7 @@ for paper in papers:
         model= 'claude-sonnet-4-5',
         max_tokens= 20000,
         system= (
-            "You are a seasoned digital assistant: capable, intelligent, considerate, and assertive. "
+            "You are a seasoned digital assistant: capable, intelligent, and assertive. "
             "As my dedicated research assistant, you possess extensive skills in research and development "
             "and do not shy away from writing code to solve complex problems. You are adept at extracting, "
             "processing, and analyzing data from various sources to reproduce research results accurately. "
@@ -115,26 +119,30 @@ for paper in papers:
             {
                 'role': 'assistant',
                 'content': "I have analyzed and understood the available data and its structure."
-            },
+            }
+        ] + [
             {
                 'role': 'user',
                 'content': reproduction_task_prompt
             }
+            for reproduction_task_prompt in reproduction_task_prompts
+        ] + [
+            {
+                'role': 'assistant',
+                'content': "I have generated all scripts for preprocessing and reproducing the specified tables."
+            },
+            {
+                'role': 'user',
+                'content': run_task_prompt
+            }
         ],
         betas= [
-            'web-search-2025-03-05',
             'files-api-2025-04-14'
-        ],
-        tools= [
-            {
-                'type': 'web_search_20250305',
-                'name': 'web_search'
-            }
         ]
     )
 
     # save raw response
-    with open(os.path.join(out_path, 'response_raw.json'), 'w', encoding= 'utf-8') as f:
+    with open(os.path.join(out_path, 'raw_response.json'), 'w', encoding= 'utf-8') as f:
         json.dump(response, f, indent= 2, default= str)
 
     response_text = response.content[0].text
