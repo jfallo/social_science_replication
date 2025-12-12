@@ -141,7 +141,7 @@ for paper in papers:
             },
             {
                 'role': 'user',
-                'content': "Please send your response such that your response text only contains the files formatted as I described before, separated by a single empty line."
+                'content': "Please send your response such that the response text only contains the files formatted as I described before, separated by a single empty line. Do not include any extra text."
             }
         ],
         betas= [
