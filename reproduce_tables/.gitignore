@@ -14,10 +14,7 @@ output/reproduction/.DS_Store
 src/__pycache__/
 
 # Python venv
-bin/
-lib/
-pyvenv.cfg
-share/
+venv/
 
 # input data
 input/16/
