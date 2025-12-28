@@ -11,8 +11,8 @@ Generate code that can be used to reproduce the specified tables from the social
 *Instructions:*
 1. Carefully read the paper PDF named "paper.pdf" to understand the methodology used to generate each of the specified tables. Also look at the table templates in "./table_templates/" for additional context.
 2. Identify the data sources, transformations, and analytical steps the authors used for the specified tables. All data files are located in "./data/".
-    1. Parse and understand the structure of each data file (column names, data types, relationships).
-    2. Identify which files are needed for each table. You have access to a Markdown table template for each of the specified tables. You should be able to fully fill in each template.
+    1. Parse and understand the structure of each data file (column names, data types, relationships). You should know how to properly access the correct data items needed in your reproduction code.
+    2. Identify which files are needed for each table. You have access to a Markdown table template for each of the specified tables. You should be able to fully fill in each template from the provided data and your reproduction code.
 3. Write a Python script for data preprocessing, if necessary, that:
     1. Loads any datasets required for reproduction from the provided data files.
     2. Performs all necessary preprocessing steps (cleaning, formatting, handling missing values, type conversions, etc.).
