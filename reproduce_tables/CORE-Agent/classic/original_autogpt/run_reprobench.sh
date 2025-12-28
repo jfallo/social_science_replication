@@ -44,7 +44,7 @@ echo "$task_prompt"
     --constraint "Also before you are done, make sure that the values of the report.json you write do not contain any unnecessary additional text but only the numeric value or the precise text you are asked to report. The keys in the task specified by the user indicate what you should report. Refine your results if they do not." \
     --continuous \
     --log-level DEBUG \
-    --fast_llm "gpt-5-mini" --smart_llm "claude-sonnet-4-5-20250929" --openai_cost_budget 4 2>&1 | tee ./environment/$index/output.txt
+    --fast_llm "gpt-4o-2024-05-13" --smart_llm "claude-sonnet-4-5-20250929" --openai_cost_budget 4 2>&1 | tee ./environment/$index/output.txt
 
 mkdir -p "./environment/$index/workspace/"
 cp -rf "data/agents/$index/workspace/." "./environment/$index/workspace/"
