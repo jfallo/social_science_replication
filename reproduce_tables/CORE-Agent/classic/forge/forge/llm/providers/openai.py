@@ -369,7 +369,11 @@ class OpenAIProvider(
             )
 
     def get_tokenizer(self, model_name: OpenAIModelName) -> ModelTokenizer[int]:
-        return tiktoken.encoding_for_model(model_name)
+        try:
+            return tiktoken.encoding_for_model(model_name)
+        except KeyError:
+            self._logger.warning(f"Model {model_name} not found. Using backup tokenizer: cl100k_base.")
+            return tiktoken.get_encoding("cl100k_base")
 
     def count_message_tokens(
         self,
