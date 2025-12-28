@@ -77,6 +77,10 @@ class OpenAIModelName(str, enum.Enum):
     GPT4_32k = GPT4_ROLLING_32k
     GPT4_O = GPT4_O_ROLLING
 
+    GPT5 = "gpt-5"
+    GPT5_MINI = "gpt-5-mini"
+    GPT5_NANO = "gpt-5-nano"
+
 
 OPEN_AI_EMBEDDING_MODELS = {
     info.name: info
@@ -171,6 +175,30 @@ OPEN_AI_CHAT_MODELS = {
             prompt_token_cost=5 / 1_000_000,
             completion_token_cost=15 / 1_000_000,
             max_tokens=128_000,
+            has_function_call_api=True,
+        ),
+        ChatModelInfo(
+            name=OpenAIModelName.GPT5,
+            provider_name=ModelProviderName.OPENAI,
+            prompt_token_cost=1.25 / 1000,
+            completion_token_cost=10.0 / 1000,
+            max_tokens=128000,
+            has_function_call_api=True,
+        ),
+        ChatModelInfo(
+            name=OpenAIModelName.GPT5_MINI,
+            provider_name=ModelProviderName.OPENAI,
+            prompt_token_cost=0.25 / 1000,
+            completion_token_cost=2.0 / 1000,
+            max_tokens=128000,
+            has_function_call_api=True,
+        ),
+        ChatModelInfo(
+            name=OpenAIModelName.GPT5_NANO,
+            provider_name=ModelProviderName.OPENAI,
+            prompt_token_cost=0.05 / 1000,
+            completion_token_cost=0.40 / 1000,
+            max_tokens=128000,
             has_function_call_api=True,
         ),
     ]
