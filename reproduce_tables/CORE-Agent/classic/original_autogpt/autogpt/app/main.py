@@ -330,7 +330,8 @@ async def run_auto_gpt(
                 f"inside its workspace at:{Fore.RESET} {file_manager.workspace.root}",
                 extra={"preserve_color": True},
             )
-        subprocess.run(f"cp -rf ../../../input/{workspace}/data \"{file_manager.workspace.root}/\"", shell=True, check=True)
+        subprocess.run(f"cp -rf ../../../input/{workspace}/data/ \"{file_manager.workspace.root}/data/\"", shell=True, check=True)
+        subprocess.run(f"cp -rf ../../../input/{workspace}/table_templates/ \"{file_manager.workspace.root}/table_templates/\"", shell=True, check=True)
         subprocess.run(f"cp ../../../input/{workspace}/paper.pdf \"{file_manager.workspace.root}/\"", shell=True, check=True)
         # TODO: re-evaluate performance benefit of task-oriented profiles
         # # Concurrently generate a custom profile for the agent and apply it once done

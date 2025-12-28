@@ -7,9 +7,10 @@ mkdir -p ./environment/$index
 
 # Create agent workspace
 mkdir -p "./data/agents/$index/workspace/data"
-# Copy paper and data into agent workspace
-cp "../../../input/$index/paper.pdf" "./data/agents/$index/workspace"
+# Copy paper, data, and table_templates into agent workspace
+cp "../../../input/$index/paper.pdf" "./data/agents/$index/workspace/"
 cp -rf "../../../input/$index/data/" "./data/agents/$index/workspace/data/"
+cp -rf "../../../input/$index/table_templates/" "./data/agents/$index/workspace/table_templates/"
 
 # Run the Python script to generate the task, writing the output into task.txt
 python3 task_gen.py --index $index
@@ -43,11 +44,9 @@ echo "$task_prompt"
     --constraint "Also before you are done, make sure that the values of the report.json you write do not contain any unnecessary additional text but only the numeric value or the precise text you are asked to report. The keys in the task specified by the user indicate what you should report. Refine your results if they do not." \
     --continuous \
     --log-level DEBUG \
-    --fast_llm "gpt-4o-2024-05-13" --smart_llm "gpt-4o-2024-05-13" --openai_cost_budget 4 2>&1 | tee ./environment/$index/output.txt
+    --fast_llm "gpt-5-mini" --smart_llm "gpt-5.2" --openai_cost_budget 4 2>&1 | tee ./environment/$index/output.txt
 
-if [ -f "data/agents/$index/workspace/reproducibility_score.json" ]; then
-    cp "data/agents/$index/workspace/reproducibility_score.json" "./environment/$index/"
-fi
-python3 evaluation.py --index $index
+cp -rf "data/agents/$index/workspace/" "./environment/$index/workspace/"
+# python3 evaluation.py --index $index
 
 rm -r data/agents/$index/
