@@ -1,0 +1,46 @@
+**Reproducibility Task**
+
+*Objective:*
+Generate code that can be used to reproduce the specified tables from the social science research paper using the provided data and the methodology in the paper.
+
+
+*Tables to Reproduce:*
+{tables}
+
+
+*Instructions:*
+1. Carefully read the paper PDF named "paper.pdf" to understand the methodology used to generate each of the specified tables. Also look at the table templates in "./table_templates/" for additional context.
+2. Identify the data sources, transformations, and analytical steps the authors used for the specified tables. All data files are located in "./data/".
+    1. Parse and understand the structure of each data file (columns, types, relationships).
+    2. Identify which files are needed for each table. You have access to a Markdown table template for each of the specified tables. You should be able to fully fill in each template.
+3. Write a Python script for data preprocessing, if necessary, that:
+    1. Loads any datasets required for reproduction from the provided data files.
+    2. Performs all necessary preprocessing steps (cleaning, formatting, handling missing values, type conversions, etc.).
+    3. Generates all required intermediate datasets.
+4. Write all necessary Python scripts for reproducing the specified tables that:
+    1. Load the data.
+    2. Perform all necessary analyses and calculations.
+    3. Generate the tables, formatted exactly as they appear in the paper.
+    4. Save the tables in Markdown format, each as its own individual Markdown file containing *only* the Markdown table and a notes section as a separate Markdown paragraph below the table, if necessary. *Do not* include any extra text.
+5. Write a bash script that:
+    1. Installs all necessary requirements such as packages and dependecies, in a virtual environment if possible.
+    2. Creates all necessary directories.
+    3. Runs the generated scripts for preprocessing and reproduction.
+
+
+*Important:*
+- Use the original data and methodology in the paper to generate code for reproducing the specified tables.
+- Document every step. Note any deviations or assumptions made during reproduction (e.g., environment fixes, path corrections, package versions).  
+- If a table cannot be reproduced, describe the problem, the debugging you attempted, and its outcome.
+- Do not copy results from the paper.
+- All code must be runnable from start to finish.
+- Codes should be well-documented with comments describing your approach.
+- Consider the computational cost of your codes. Do your best to minimize costs and runtimes, but not at the expense of completing your objective.
+- Check all scripts for any coding or logic errors.
+
+
+*Output Requirements:*
+- Save all generated code files used to reproduce the specified tables in
+  ./output/
+- Save a detailed report (logs, comparisons, environment notes, assumptions, fixes) in  
+  ./output/report.txt

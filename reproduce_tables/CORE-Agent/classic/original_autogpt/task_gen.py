@@ -17,7 +17,7 @@ def text_gen(index):
         reproduction_list = [line.strip() for line in file.readlines() if len(line.strip()) > 0]
     print(reproduction_list)
     
-    with open('./environment/task_template.txt', 'r') as file:
+    with open('./task_template.txt', 'r') as file:
         task_template = file.read()
     
     task_text = task_template.format(figures=[item for item in reproduction_list if item.startswith('Figure')], 
