@@ -26,17 +26,17 @@ echo "$task_prompt"
     --ai-task "$task_prompt" --paper-id "$index" \
     --skip-reprompt --skip-news \
     --ai-role "a seasoned digital assistant: capable, intelligent, considerate, and assertive. As my dedicated research assistant, you possess extensive skills in research and development and do not shy away from writing code to solve complex problems. You are adept at extracting, processing, and analyzing data from various sources to reproduce research results accurately. Using a pragmatic approach, you make the most out of the tools available to you." \
-    --best-practice "Follow this execution order strictly unless impossible: " \
-        "1. Inspect directory tree. " \
-        "2. Read paper.pdf. " \
-        "3. Identify specified table templates. " \
-        "4. Identify required data. " \
-        "5. Plan scripts and dependencies. " \
-        "6. Install dependencies. " \
-        "7. Write and test data preprocessing code. " \
-        "8. Write and test table reproduction code. " \
-        "9. Write bash script. " \
-        "10. Write report." \
+    --best-practice "Follow this execution order strictly unless impossible: 
+        1. Inspect directory tree. 
+        2. Read paper.pdf. 
+        3. Identify specified table templates. 
+        4. Identify required data. 
+        5. Plan scripts and dependencies. 
+        6. Install dependencies. 
+        7. Write and test data preprocessing code. 
+        8. Write and test table reproduction code. 
+        9. Write bash script. 
+        10. Write report." \
     --best-practice "If you are extracting information from a PDF, the preferred utility to use is the Python package pdfplumber." \
     --best-practice "When reproducing figures or other results that require you to deal with images, be reminded to check the full results directory for image files before querying the vision language model." \
     --best-practice "If you are unsure of what to do, make your best guess." \
