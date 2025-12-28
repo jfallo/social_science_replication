@@ -9,7 +9,9 @@ Generate code that can be used to reproduce the specified tables from the social
 
 
 *Instructions:*
-1. Carefully read the paper PDF named "paper.pdf" to understand the methodology used to generate each of the specified tables. Also look at the table templates in "./table_templates/" for additional context.
+1. Carefully read the paper PDF named "paper.pdf" to understand the methodology used to generate each of the specified tables. 
+    1. Look at the table templates in "./table_templates/" for additional context such as feature names or data types.
+    2. Construct a brief plan for reproducing each of the specified tables.
 2. Identify the data sources, transformations, and analytical steps the authors used for the specified tables. All data files are located in "./data/".
     1. Parse and understand the structure of each data file (column names, data types, relationships). You should know how to properly access the correct data items needed in your reproduction code.
     2. Identify which files are needed for each table. You have access to a Markdown table template for each of the specified tables. You should be able to fully fill in each template from the provided data and your reproduction code.
@@ -29,15 +31,17 @@ Generate code that can be used to reproduce the specified tables from the social
 
 
 *Important:*
-- Use the original data and methodology in the paper to generate code for reproducing the specified tables.
-- Document every step. Note any deviations or assumptions made during reproduction (e.g., environment fixes, path corrections, package versions).  
+- Document every step. Note any deviations or assumptions made during reproduction (e.g., environment fixes, path corrections, package versions). 
+- All explanations, logs, assumptions, and debugging notes must go ONLY in ./output/report.txt.  
+- Markdown table files must contain ONLY the table and an optional notes paragraph.
 - If a table cannot be reproduced, describe the problem, the debugging you attempted, and its outcome.
-- Do not copy results from the paper.
+- Do not simply copy results from the paper.
 - All code must be runnable from start to finish.
-- Codes should be well-documented with comments describing your approach.
 - Consider the computational cost of your codes. Do your best to minimize costs and runtimes, but not at the expense of completing your objective.
-- Consider truncation errors when writing files. Separate large files into multiple smaller, coherent files that will not be truncated.
-- When checking scripts for any coding or logic errors, run them on a subset of the data first. For example, if a data file contains thousands of entries, only test on 100 random entries.
+- Consider truncation errors when writing files. Separate excessively large files into multiple smaller, coherent files that will not be truncated.
+- When checking scripts for any coding or logic errors, run them on a subset of the data first. For example, 40 random entries.
+- After testing on a subset, rerun all scripts on the full dataset before final output generation.
+- For each reproduced table, verify row and column counts match the table template, variable names match the table template, and units and scaling match the paper.
 
 
 *Output Requirements:*

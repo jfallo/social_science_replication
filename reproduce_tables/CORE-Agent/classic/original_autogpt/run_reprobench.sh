@@ -26,17 +26,30 @@ echo "$task_prompt"
     --ai-task "$task_prompt" --paper-id "$index" \
     --skip-reprompt --skip-news \
     --ai-role "a seasoned digital assistant: capable, intelligent, considerate, and assertive. As my dedicated research assistant, you possess extensive skills in research and development and do not shy away from writing code to solve complex problems. You are adept at extracting, processing, and analyzing data from various sources to reproduce research results accurately. Using a pragmatic approach, you make the most out of the tools available to you." \
+    --best-practice "Follow this execution order strictly unless impossible: " \
+        "1. Inspect directory tree. " \
+        "2. Read paper.pdf. " \
+        "3. Identify specified table templates. " \
+        "4. Identify required data. " \
+        "5. Plan scripts and dependencies. " \
+        "6. Install dependencies. " \
+        "7. Write and test data preprocessing code. " \
+        "8. Write and test table reproduction code. " \
+        "9. Write bash script. " \
+        "10. Write report." \
     --best-practice "If you are extracting information from a PDF, the preferred utility to use is the Python package pdfplumber." \
     --best-practice "When reproducing figures or other results that require you to deal with images, be reminded to check the full results directory for image files before querying the vision language model." \
     --best-practice "If you are unsure of what to do, make your best guess." \
-    --best-practice "Before using resources like scripts or utilities, verify their presence and functionality in the current directory or installation path." \
+    --best-practice "When verifying presence of a file or directory, list its contents and inspect at least one representative file before assuming usability." \
     --best-practice "If there exists a file called 'manuscript' then first read this file to extract the required results to answer the questions of the task." \
     --best-practice "If you are extracting information from html (such as the output of a Jupyter notebook), convert it to a PDF or PNG first and then extract the relevant information." \
     --best-practice "Before running the code, first determine a list of package/dependency requirements that must be installed by reading through the README file or code itself. Then install those dependencies before running the code." \
-    --best-practice "Before writing code that accesses data, be sure of data column names, types, and relationships." \
+    --best-practice "Before performing any analysis, explicitly load each dataset and print or log its columns, dtypes, and row counts." \
     --best-practice "When writing code, be aware of truncation errors from long code files. Keep code clear, concise, or split into smaller files." \
+    --best-practice "If you find an error in a code file, resolve the error in the same file instead of creating a new file without the error." \
     --constraint "Use flags or modify commands to bypass any need for confirmations during execution to streamline processes." \
-    --constraint "There is no task that you cannot do, so you should not refuse a request by saying you cannot do it" \
+    --constraint "If a task cannot be completed exactly as specified, you must still produce runnable code and a detailed failure analysis explaining precisely why reproduction failed and what evidence is missing." \
+    --constraint "Avoid repeated reading of the same files or reinstalling the same dependencies unless a new error requires it." \
     --constraint "You may wish to write and run a Python script to complete the task, especially if the task requires access to the Internet or other libraries. However, assume that I do NOT have API keys to use external services." \
     --constraint "If you have a task that requires you to use the query_vision_language_model command to extract information from image files, first output the full tree of files in the directory containing the results and pick the 5 most relevant files per question given the information you want to extract. Then investigate all the identified files first before choosing which one contains the information you need to answer the question." \
     --constraint "Do not include environmental variables such as 'PWD' as an argument for the 'execute_shell' command. Instead, determine the value of the variable and directly input it to the command. For example, by using the absolute path instead of 'PWD'." \
@@ -46,9 +59,11 @@ echo "$task_prompt"
     --constraint "Also before you are done, make sure that the values of the report.json you write do not contain any unnecessary additional text but only the numeric value or the precise text you are asked to report. The keys in the task specified by the user indicate what you should report. Refine your results if they do not." \
     --continuous \
     --log-level DEBUG \
-    --fast_llm "gpt-4o-2024-05-13" --smart_llm "claude-sonnet-4-5-20250929" --openai_cost_budget 4 2>&1 | tee ./environment/$index/output.txt 
+    --fast_llm "gpt-4o-2024-05-13" \
+    --smart_llm "claude-sonnet-4-5-20250929" \
+    --openai_cost_budget 4 2>&1 | tee ./environment/$index/output.txt 
 
 
-mkdir -p "./environment/$index/workspace/"
+mkdir -p "./environment/$index/workspace/" &&
 cp -rf "data/agents/$index/workspace/." "./environment/$index/workspace/" &&
 rm -r data/agents/$index/
