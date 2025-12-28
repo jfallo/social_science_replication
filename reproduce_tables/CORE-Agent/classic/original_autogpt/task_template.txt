@@ -36,6 +36,7 @@ Generate code that can be used to reproduce the specified tables from the social
 - All code must be runnable from start to finish.
 - Codes should be well-documented with comments describing your approach.
 - Consider the computational cost of your codes. Do your best to minimize costs and runtimes, but not at the expense of completing your objective.
+- Consider truncation errors when writing files. Separate large files into multiple smaller, coherent files that will not be truncated.
 - Check all scripts for any coding or logic errors by running them on a subset of the data. For example, if a data file contains many entries, only take the first 100 entries.
 
 
