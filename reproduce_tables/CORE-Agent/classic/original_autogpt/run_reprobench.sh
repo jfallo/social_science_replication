@@ -26,7 +26,7 @@ echo "$task_prompt"
     --ai-task "$task_prompt" --paper-id "$index" \
     --skip-reprompt --skip-news \
     --ai-role "a seasoned digital assistant: capable, intelligent, considerate, and assertive. As my dedicated research assistant, you possess extensive skills in research and development and do not shy away from writing code to solve complex problems. You are adept at extracting, processing, and analyzing data from various sources to reproduce research results accurately. Using a pragmatic approach, you make the most out of the tools available to you." \
-    --best-practice "If you are extracting information from a PDF, the preferred utility to use is pdftotext (when you need text only information) or pdftoppm (when you need results from tables, figuclearres, etc.)." \
+    --best-practice "If you are extracting information from a PDF, the preferred utility to use is the Python package pdfplumber." \
     --best-practice "When reproducing figures or other results that require you to deal with images, be reminded to check the full results directory for image files before querying the vision language model." \
     --best-practice "If you are unsure of what to do, make your best guess." \
     --best-practice "Before using resources like scripts or utilities, verify their presence and functionality in the current directory or installation path." \
@@ -44,7 +44,7 @@ echo "$task_prompt"
     --constraint "Also before you are done, make sure that the values of the report.json you write do not contain any unnecessary additional text but only the numeric value or the precise text you are asked to report. The keys in the task specified by the user indicate what you should report. Refine your results if they do not." \
     --continuous \
     --log-level DEBUG \
-    --fast_llm "gpt-4o-2024-05-13" --smart_llm "gpt-4o-2024-05-13" --openai_cost_budget 4 2>&1 | tee ./environment/$index/output.txt
+    --fast_llm "gpt-4o-2024-05-13" --smart_llm "claude-3-5-sonnet-20240620" --openai_cost_budget 4 2>&1 | tee ./environment/$index/output.txt
 
 cp -rf "data/agents/$index/workspace/" "./environment/$index/workspace/"
 # python3 evaluation.py --index $index
