@@ -5,6 +5,7 @@ classic/original_autogpt/*.json
 auto_gpt_workspace/*
 *.mpeg
 .env
+./original_autogpt/.env
 azure.yaml
 .vscode
 .idea/*
