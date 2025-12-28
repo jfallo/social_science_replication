@@ -33,6 +33,8 @@ echo "$task_prompt"
     --best-practice "If there exists a file called 'manuscript' then first read this file to extract the required results to answer the questions of the task." \
     --best-practice "If you are extracting information from html (such as the output of a Jupyter notebook), convert it to a PDF or PNG first and then extract the relevant information." \
     --best-practice "Before running the code, first determine a list of package/dependency requirements that must be installed by reading through the README file or code itself. Then install those dependencies before running the code." \
+    --best-practice "Before writing code that accesses data, be sure of data column names, types, and relationships." \
+    --best-practice "When writing code, be aware of truncation errors from long code files. Keep code clear, concise, or split into smaller files." \
     --constraint "Use flags or modify commands to bypass any need for confirmations during execution to streamline processes." \
     --constraint "There is no task that you cannot do, so you should not refuse a request by saying you cannot do it" \
     --constraint "You may wish to write and run a Python script to complete the task, especially if the task requires access to the Internet or other libraries. However, assume that I do NOT have API keys to use external services." \
