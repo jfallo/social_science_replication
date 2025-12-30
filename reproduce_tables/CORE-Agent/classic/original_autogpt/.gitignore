@@ -165,3 +165,7 @@ package.json
 
 # Keep
 !.keep
+
+# paper results
+environment/9/
+environment/110/reproduction_package/data/

@@ -59,9 +59,9 @@ echo "$task_prompt"
     --log-level DEBUG \
     --fast_llm "claude-haiku-4-5-20251001" \
     --smart_llm "claude-sonnet-4-5-20250929" \
-    --openai_cost_budget 4 2>&1 | tee ./environment/$index/output.txt 
+    --openai_cost_budget 10 2>&1 | tee ./environment/$index/output.txt 
 
 
-mkdir -p "./environment/$index/workspace/" &&
-cp -rf "data/agents/$index/workspace/." "./environment/$index/workspace/" &&
+cp "./data/agents/$index/workspace/output/report.txt" "./environment/$index/report.txt"
+cp -rf "./data/agents/$index/workspace/output/reproduction_package" "./environment/$index/reproduction_package/" &&
 rm -r data/agents/$index/
