@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for index in {110..110}
+for index in {9..9}
 do
     # Run the reproduce_autogpt.sh script with the current index
     ./run_reprobench.sh $index

@@ -45,6 +45,9 @@ Generate code that can be used to reproduce the specified tables from the social
 
 *Output Requirements:*
 - Save all generated code files used to reproduce the specified tables in
-  ./output/
+  "./output/"
 - Save a detailed report (logs, comparisons, environment notes, assumptions, fixes) in  
-  ./output/report.txt
+  "./output/report.txt"
+- Save a final reproduction package containing all reproduction code and data as
+  "./output/reproduction_package"
+
