@@ -11,7 +11,6 @@ OUTPUT_PATH = './output/reproduction/'
 
 # get papers to reproduce
 papers = [name for name in os.listdir(INPUT_PATH) if os.path.isdir(os.path.join(INPUT_PATH, name))]
-papers = ['9']
 
 # get task templates for generating claude task prompts
 with open(os.path.join(INPUT_PATH, 'task_templates/read_paper.txt'), 'r') as file:
@@ -47,9 +46,10 @@ for paper in papers:
     analyze_data_task_prompt = analyze_data_task_template.format(
         tables_to_reproduce= tables_to_reproduce
     )
-    reproduction_task_prompts = [reproduction_task_template.format(
-        table= table
-    ) for table in tables_to_reproduce]
+    reproduction_task_prompts = [
+        reproduction_task_template.format(table= table) 
+        for table in reproduction_list
+    ]
     run_task_prompt = run_task_template.format(
         tables_to_reproduce= tables_to_reproduce
     )
@@ -69,19 +69,19 @@ for paper in papers:
     # convert data to string
     data_string = data_to_string(data_in_path)
 
-    # first message request
-    print(f'\nSending first message request.')
-
+    # send message request
+    print(f'\nSending message request.')
     response = client.beta.messages.create(
         model= 'claude-sonnet-4-5',
         max_tokens= 20000,
         system= (
             "You are a seasoned digital assistant: capable, intelligent, and assertive. "
             "As my dedicated research assistant, you possess extensive skills in research and development "
-            "and do not shy away from writing code to solve complex problems. You are adept at understanding "
-            "and testing reproduction code, and identifying and resolving coding errors. You are an expert at "
-            "simulating dummy data for the sole purpose of testing that your code runs to completion without error. "
-            "Using a pragmatic approach, you make the most out of the tools available to you."
+            "and do not shy away from writing code to solve complex problems. You are skilled at extracting, "
+            "processing, and analyzing data from various sources to reproduce research results accurately. "
+            "You are adept at understanding and testing reproduction code, and identifying and resolving coding errors. " 
+            "You are an expert at simulating dummy data for the sole purpose of testing that your code runs to "
+            "completion without error. Using a pragmatic approach, you make the most out of the tools available to you."
         ),
         messages= [
             {
@@ -157,86 +157,6 @@ for paper in papers:
     response_text = response.content[0].text
     with open(os.path.join(out_path, 'response.txt'), 'w') as file:
         file.write(response_text)
-
-    # second message request
-    print(f'\nSending second message request.')
-
-    response = client.beta.messages.create(
-        model= 'claude-sonnet-4-5',
-        max_tokens= 20000,
-        system= (
-            "You are a seasoned digital assistant: capable, intelligent, and assertive. "
-            "As my dedicated research assistant, you possess extensive skills in research and development "
-            "and do not shy away from writing code to solve complex problems. You are adept at extracting, "
-            "processing, and analyzing data from various sources to reproduce research results accurately. "
-            "Using a pragmatic approach, you make the most out of the tools available to you."
-        ),
-        messages= [
-            {
-                'role': 'user',
-                'content': [
-                   {
-                        'type': 'document',
-                        'source': {
-                            'type': 'file',
-                            'file_id': pdf_file_id
-                        }
-                    },
-                    {
-                        'type': 'text',
-                        'text': read_paper_task_prompt
-                    }
-                ]
-            },
-            {
-                'role': 'assistant',
-                'content': "I have read the paper pdf."
-            },
-            {
-                'role': 'user',
-                'content': [
-                    {
-                        'type': 'text',
-                        'text': analyze_data_task_prompt
-                    },
-                    {
-                        'type': 'text',
-                        'text': data_string
-                    }
-                ]
-            },
-            {
-                'role': 'assistant',
-                'content': "I have analyzed and understood the available data and its structure."
-            }
-        ] + [
-            {
-                'role': 'user',
-                'content': reproduction_task_prompt
-            }
-            for reproduction_task_prompt in reproduction_task_prompts
-        ] + [
-            {
-                'role': 'assistant',
-                'content': "I have generated all scripts for preprocessing and reproducing the specified tables."
-            },
-            {
-                'role': 'user',
-                'content': run_task_prompt
-            },
-            {
-                'role': 'assistant',
-                'content': "I have completed creating the reproduction package. I am ready to generate my response."
-            },
-            {
-                'role': 'user',
-                'content': "Please send your response such that the response text only contains the files formatted as I described before, separated by a single empty line. Do not include any extra text."
-            }
-        ],
-        betas= [
-            'files-api-2025-04-14'
-        ]
-    )
 
     # detect files in response text
     pattern = r'<file="(.*?)">(.*?)</file>'
