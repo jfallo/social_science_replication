@@ -159,7 +159,7 @@ for paper in papers:
         file.write(response_text)
 
     # second message request
-    print(f'\nSending first message request.')
+    print(f'\nSending second message request.')
 
     response = client.beta.messages.create(
         model= 'claude-sonnet-4-5',
